@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import json
 from autoPost import post, initial
 import pyperclip
+import time
 
 # Replace with your API key
 API_KEY = ''
@@ -49,12 +50,42 @@ def get_public_videos(channelID, test = False):
     
 
 if  __name__ == '__main__':
-    ## 前文
-    pre_text = ''
-
-
     test = False
     test = True
+
+    timer = False
+    timer = True
+    ## 前文
+    pre_text = ''
+    ##Time Set
+    (hs, ms, ss)=(12, 0, 0)
+
+    t = time.localtime()
+    year=int(time.strftime('%y',t))
+    month=int(time.strftime('%m',t))
+
+    result = time.strftime("%Y/%m/%d %H:%M:%S", t)
+    print(f"Start Time: {result}")
+    animation = "|/—\\"
+    ix = 0
+    hour=int(time.strftime('%H',t))
+    min=int(time.strftime('%M',t))
+    sec=int(time.strftime('%S',t))
+    day = datetime.datetime.today().weekday()
+    if timer or test:
+        while hour!=hs or min!=ms or sec<=ss:
+            ds = (hs-hour)*60*60+(ms-min)*60+(ss-sec)
+            resultTime = datetime.timedelta(seconds = ds)
+            print(f' {animation[round(ix*0.25) % len(animation)]}T-{resultTime}         ',end='\r')
+            ix+=1
+            time.sleep(0.001)
+            t = time.localtime()
+            hour=int(time.strftime('%H',t))
+            min=int(time.strftime('%M',t))
+            sec=int(time.strftime('%S',t))
+            day = datetime.datetime.today().weekday()
+        time.sleep(1)
+
     driver = initial(test)
     video_json = {}
     text = ''
@@ -69,7 +100,6 @@ if  __name__ == '__main__':
     
     text += f'[div align=left][size=4][b]{pre_text}[/b][/size][/div]\n'
     for channel in list(channel_info.keys()):
-        print(channel)
         channelID = channel_info[f'{channel}']
         video_json[f'{channel}'] = get_public_videos(channelID, test)
         video_title = video_json[f'{channel}']['title']
