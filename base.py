@@ -59,7 +59,8 @@ if  __name__ == '__main__':
     pre_text = ''
     ##Time Set
     (hs, ms, ss)=(12, 0, 0)
-
+    
+    driver = initial(test)
     t = time.localtime()
     year=int(time.strftime('%y',t))
     month=int(time.strftime('%m',t))
@@ -86,7 +87,7 @@ if  __name__ == '__main__':
             day = datetime.datetime.today().weekday()
         time.sleep(1)
 
-    driver = initial(test)
+    
     video_json = {}
     text = ''
     title = ''
